@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        Backbone.js
+    </title>
+    <meta name="author" content="Mats Bolstad">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="css/custom.css" type="text/css">
+    <link rel="stylesheet" href="css/reveal.css" type="text/css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme" type="text/css">
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css" type="text/css">
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+
+    <script type="text/javascript">
+        document.write('<link rel="stylesheet" href="css/print/' + ( window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">');
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="reveal">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section>
+            <h1>
+                Backbone.js
+            </h1>
+
+            <img src="backbone-logo.png"/>
+
+            <h3>
+                Fra kaos til struktur i JavaScript
+            </h3>
+
+            <p>
+                Mats Bolstad
+            </p>
+        </section>
+        <section data-state="steria">
+            <h2>
+                Agenda
+            </h2><br>
+            <ul>
+                <li>Mitt prosjekt med Backbone
+                </li>
+                <li>Motivasjon ("skrekkeksempler")
+                </li>
+                <li>Introduksjon Backbone
+                </li>
+                <li>Hvilke problemer løser Backbone?
+                </li>
+                <li style="list-style: none; display: inline">
+                    <ul class="smaller">
+                        <li>og hvilke løser den <em>ikke</em>?
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <section>
+                <h2>
+                    Erfaring fra prosjekt
+                </h2><br>
+
+                <div class="left">
+                    <p>
+                        SpareBank1 - Saksbehandlingsverktøy for mislighold
+                    </p><br>
+
+                    <p>
+                        <strong>Omfang:</strong>
+                    </p>
+                    <ul>
+                        <li>5 utviklere
+                        </li>
+                        <li>4 måneder
+                        </li>
+                    </ul>
+                    <br>
+                </div>
+            </section>
+            <section>
+                <h2>
+                    Erfaring fra prosjekt
+                </h2><br/>
+
+                <p class="bigger">
+                    Én statisk HTML-side. REST-arkitektur.
+                </p><br>
+
+                <div class="left">
+                    <ul>
+                        <li>
+                            <em>Front-end:</em> Backbone.js, jQuery, Require.js, Bootstrap
+                        </li>
+                        <li>
+                            <span class="muted"><em>Back-end:</em> Java ++</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>
+                    Motivasjon?
+                </h2>
+                <br>
+
+                <p>Holder det ikke med jQuery?</p>
+            </section>
+            <section>
+                <h3>Organisk utvikling av en webapp</h3>
+
+                <div class="block" data-template="org1">
+                </div>
+
+                <pre><code data-template="org1" data-escape>
+                </code></pre>
+
+            </section>
+
+            <section>
+                <blockquote>Man skal ikke kunne trykke <strong>Send</strong> hvis det ikke er data i feltet.
+                </blockquote>
+            </section>
+
+            <section>
+                <div class="block" data-template="org1">
+                </div>
+
+                <pre><code data-template="org1" data-escape>
+                </code></pre>
+
+                <pre><code data-template="js1" data-escape>
+                </code></pre>
+            </section>
+
+            <section>
+                <blockquote>Når data er sendt skal URL reflektere søk.</blockquote>
+            </section>
+
+            <section>
+                <pre><code data-template="js2" data-escape>
+                </code></pre>
+            </section>
+
+            <section>
+                <blockquote>Søkeresultat må vises i tabell. <br/>Feilmelding må vises hvis søket feilet.</blockquote>
+            </section>
+
+            <section>
+                <pre><code style="max-height: 600px" data-template="js3" data-escape>
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Vi får sterk kobling mellom forskjellige concerns.</h2>
+                <div class="left">
+
+                <p>Her skjer:</p>
+                <ul>
+                    <li>henting av verdi fra DOM</li>
+                    <li>sending av request</li>
+                    <li>ivaretaelse av tilstand (URL)</li>
+                    <li>parsing av respons</li>
+                    <li>tegning av viewet</li>
+                </ul>
+                </div>
+            </section>
+        </section>
+
+        <section>
+            <h3>
+                Takk for meg
+            </h3>
+
+            <p>
+                Mats Bolstad
+            </p>
+        </section>
+    </div>
+</div>
+<script src="lib/js/head.min.js" type="text/javascript"></script>
+<script src="js/reveal.min.js" type="text/javascript"></script>
+<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+<script data-template="org1" type="text/template">
+    <h4>Enkelt skjema</h4>
+
+    <form id="foo">
+        <input type="text">
+        <input type="submit">
+    </form>
+</script>
+
+<script data-template="js1" type="text/javascript">
+    $("#foo [type=text]").on("change", function (e) {
+        if ($(e.target).val().length > 0) {
+            $("#foo [type=submit]").show();
+        } else {
+            $("#foo [type=submit]").hide();
+        }
+    });
+</script>
+
+<script data-template="js2" type="text/javascript">
+    $("#foo").on("submit", function () {
+        var søkeStreng = $("#foo [type=text]").val();
+
+        $.ajax({
+            url:"http://foo.no",
+            type:"get",
+            data:søkeStreng,
+            success:function (data) {
+                window.history.pushState(søkeStreng); // (sic)
+
+                // ...
+            }
+        });
+    });
+</script>
+
+<script data-template="js3" type="text/javascript">
+    $("#foo").on("submit", function () {
+        var søkeStreng = $("#foo [type=text]").val();
+
+        $.ajax({
+            url:"http://foo.no",
+            type:"get",
+            data:søkeStreng,
+            error:function (error) {
+                $("#feilmeldingsboks").text(error);
+            },
+            success:function (data) {
+                window.history.pushState(søkeStreng);
+
+                var tabellModell = JSON.parse(data);
+
+                $("#resultatTabell").empty();
+                tabellModell.forEach(function (x) {
+                    var rad = "<tr><td>" + x.navn + "</td></tr>";
+                    $("#resultatTabell").append(rad);
+                });
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("form").submit(function () {
+            return false;
+        })
+        var elements = $(":not(script)[data-template]");
+        $.each(elements, function () {
+            var templateContent = $("script[data-template=" + $(this).attr("data-template") + "]").html();
+            $(this).html($(this).attr("data-escape") !== undefined ? templateContent.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "<div>" + templateContent + "</div");
+        });
+    });
+</script>
+<script type="text/javascript">
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls:true,
+        progress:true,
+        history:true,
+
+        theme:'default', // available themes are in /css/theme
+        transition:'linear', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies:[
+            { src:'lib/js/classList.js', condition:function () {
+                return !document.body.classList;
+            } },
+            { src:'plugin/markdown/showdown.js', condition:function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src:'plugin/markdown/markdown.js', condition:function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src:'plugin/highlight/highlight.js', async:true, callback:function () {
+                hljs.initHighlightingOnLoad();
+            } },
+            { src:'plugin/zoom-js/zoom.js', async:true, condition:function () {
+                return !!document.body.classList;
+            } },
+            { src:'plugin/notes/notes.js', async:true, condition:function () {
+                return !!document.body.classList;
+            } }
+        ]
+    });
+
+</script>
+</body>
+</html>
