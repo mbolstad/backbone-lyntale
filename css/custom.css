@@ -15,6 +15,13 @@
     font-size: 0.75em;
 }
 
+.reveal .smaller2 {
+    font-size: 0.65em !important;
+}
+
+.reveal .smaller3 {
+    font-size: 0.5em !important;
+}
 
 .reveal .block {
     display: block;
@@ -29,6 +36,67 @@
     box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
 }
 
+.reveal .hanging > li {
+    margin-bottom: 1em;
+}
+
+.reveal .hanging li ul li {
+    font-size: 0.8em;
+    color: rgb(200, 200, 200);
+}
+
+
 .reveal .block div {
     padding: 20px;
+}
+
+.reveal section > h2, .reveal section > h3 {
+    margin-top: 0.5em !important;
+    margin-bottom: 0.2em;
+}
+
+.spacer {
+    margin-top: 1.5em !important;
+    content: "&nbsp;";
+}
+
+.small-spacer {
+    margin-top: 0.75em !important;
+    content: "&nbsp;";
+}
+
+.reveal .highlight-strong {
+    color: rgb(200, 200, 200);
+}
+
+.reveal .highlight-strong strong {
+    color: rgb(238, 238, 238);
+}
+
+pre > code span.code-comment {
+    padding: 0.2em 0.4em;
+    font-family: Helvetica, Arial;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* GRIDS */
+
+[class*='col-'] {
+  float: left;
+}
+
+.grid:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.col-1-2 {
+  width: 50%;
+}
+.col-1-4 {
+  width: 25%;
+}
+.col-1-8 {
+  width: 12.5%;
 }

@@ -27,28 +27,28 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section>
-            <h1>
-                Backbone.js
-            </h1>
+            <h2>
+                Fra kaos til struktur i JavaScript
+            </h2>
 
             <img src="backbone-logo.png"/>
 
             <h3>
-                Fra kaos til struktur i JavaScript
+                Backbone.js
             </h3>
 
             <p>
                 Mats Bolstad
             </p>
         </section>
-        <section data-state="steria">
+        <section>
             <h2>
                 Agenda
             </h2><br>
             <ul>
                 <li>Mitt prosjekt med Backbone
                 </li>
-                <li>Motivasjon ("skrekkeksempler")
+                <li>Motivasjon for MV*
                 </li>
                 <li>Introduksjon Backbone
                 </li>
@@ -115,81 +115,7 @@
 
                 <p>Holder det ikke med jQuery?</p>
             </section>
-            <section>
-                <h3>Organisk utvikling av en webapp</h3>
 
-                <div class="block" data-template="org1">
-                </div>
-
-                <pre><code data-template="org1" data-escape>
-                </code></pre>
-
-            </section>
-
-            <section>
-                <blockquote>Man skal ikke kunne trykke <strong>Send</strong> hvis det ikke er data i feltet.
-                </blockquote>
-            </section>
-
-            <section>
-                <div class="block" data-template="org1">
-                </div>
-
-                <pre><code data-template="org1" data-escape>
-                </code></pre>
-
-                <pre><code data-template="js1" data-escape>
-                </code></pre>
-            </section>
-
-            <section>
-                <blockquote>Når data er sendt skal URL reflektere søk.</blockquote>
-            </section>
-
-            <section>
-                <pre><code data-template="js2" data-escape>
-                </code></pre>
-            </section>
-
-            <section>
-                <blockquote>Søkeresultat må vises i tabell. <br/>Feilmelding må vises hvis søket feilet.</blockquote>
-            </section>
-
-            <section>
-                <pre><code style="max-height: 600px" data-template="js3" data-escape>
-                </code></pre>
-            </section>
-
-            <section>
-                <h2>Vi får sterk kobling mellom forskjellige concerns.</h2>
-                <div class="left">
-
-                <p>Her skjer:</p>
-                <ul>
-                    <li>henting av verdi fra DOM</li>
-                    <li>sending av request</li>
-                    <li>ivaretaelse av tilstand (URL)</li>
-                    <li>parsing av respons</li>
-                    <li>tegning av viewet</li>
-                </ul>
-                </div>
-            </section>
-        </section>
-
-        <section>
-            <h3>
-                Takk for meg
-            </h3>
-
-            <p>
-                Mats Bolstad
-            </p>
-        </section>
-    </div>
-</div>
-<script src="lib/js/head.min.js" type="text/javascript"></script>
-<script src="js/reveal.min.js" type="text/javascript"></script>
-<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
 <script data-template="org1" type="text/template">
     <h4>Enkelt skjema</h4>
 
@@ -209,6 +135,40 @@
     });
 </script>
 
+            <section>
+                <h3>Eksempel</h3>
+
+                <p>En webapp som utvider seg "organisk":</p>
+
+                <div class="block" data-template="org1">
+                </div>
+
+                <pre><code data-template="org1" data-escape>
+                </code></pre>
+
+            </section>
+
+            <section>
+                <p>Krav 1:</p>
+                <blockquote>Man skal kunne trykke <strong>Send</strong> bare når det er data i feltet.
+                </blockquote>
+            </section>
+
+            <section>
+                <div class="block" data-template="org1">
+                </div>
+
+                <pre><code data-template="org1" data-escape>
+                </code></pre>
+
+                <pre><code data-template="js1" data-escape>
+                </code></pre>
+            </section>
+
+            <section>
+                <p>Krav 2:</p>
+                <blockquote>URL-en skal reflektere søket brukeren utfører.</blockquote>
+            </section>
 <script data-template="js2" type="text/javascript">
     $("#foo").on("submit", function () {
         var søkeStreng = $("#foo [type=text]").val();
@@ -218,13 +178,22 @@
             type:"get",
             data:søkeStreng,
             success:function (data) {
-                window.history.pushState(søkeStreng); // (sic)
+                window.history.replaceState(søkeStreng); // (sic)
 
-                // ...
+                // Håndter respons ...
             }
         });
     });
 </script>
+            <section>
+                <pre><code data-template="js2" data-escape>
+                </code></pre>
+            </section>
+
+            <section>
+                <p>Krav 3:</p>
+                <blockquote>Søkeresultat må vises i tabell. <br/>Feilmelding må vises hvis søket feilet.</blockquote>
+            </section>
 
 <script data-template="js3" type="text/javascript">
     $("#foo").on("submit", function () {
@@ -252,18 +221,318 @@
     });
 </script>
 
-<script type="text/javascript">
-    $(function () {
-        $("form").submit(function () {
-            return false;
-        })
-        var elements = $(":not(script)[data-template]");
-        $.each(elements, function () {
-            var templateContent = $("script[data-template=" + $(this).attr("data-template") + "]").html();
-            $(this).html($(this).attr("data-escape") !== undefined ? templateContent.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "<div>" + templateContent + "</div");
-        });
+            <section>
+                <pre><code style="max-height: 600px" data-template="js3" data-escape>
+                </code></pre>
+            </section>
+
+            <section>
+                <img src="spaghetti.jpg">
+            </section>
+
+            <section>
+                <h2>Sterk kobling</h2>
+                <div class="left">
+
+                <p>Her skjer:</p>
+                <ul class="smaller">
+                    <li>Henting av verdi fra DOM</li>
+                    <li>Sending av request</li>
+                    <li>Ivaretaelse av tilstand (URL)</li>
+                    <li>Parsing av respons</li>
+                    <li>Tegning av view</li>
+                </ul>
+                <br/>
+                <br/>
+                <p class="fragment"><em>Det behøver ikke bli slik, men det har veldig lett for det.</em></p>
+                </div>
+            </section>
+
+            <!-- <section>
+
+                <p>JavaScript eller jQuery er ikke problemet her.</p>
+                <br>
+                <p>Problemet er mangel på <em><strong>separering av concerns</strong></em>.</p>
+
+            </section> -->
+
+        </section>
+
+        <section>
+            <h2>MV*-rammeverk</h2>
+
+            <div class="spacer"></div>
+            <div class="grid">
+                <div class="col-1-2">
+                    <ul>
+                        <li>Backbone.js</li>
+                        <li>Ember.js</li>
+                        <li>AngularJS</li>
+                        <li>Spine</li>
+                        <li>KnockoutJS</li>
+                        <li>Dojo</li>
+                    </ul>
+                </div>
+                <div class="col-1-2">
+                    <ul>
+                        <li>YUI</li>
+                        <li>Batman.js</li>
+                        <li>Closure</li>
+                        <li>Agility.js</li>
+                        <li>Knockback.js</li>
+                        <li>Google Web Toolkit</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <p class="smaller">Implementasjoner av disse på: <em>todomvc.com</em></p>
+        </section>
+
+        <section>
+            <section>
+                <h2>Backbone.js</h2>
+                <div class="spacer"></div>
+                <ul class="hanging">
+                    <li>Stor grad av frihet, må bestemme konvensjoner selv. <ul><li>Backbone only, no flesh</li> </ul> </li>
+                    <li>Lite: <ul><li>6.3KB</li><li>~ 1500 kodelinjer</li></ul></li>
+                </ul> 
+            </section>
+
+            <section>
+                <h2>Backbone.js</h2>
+                <div class="spacer"></div>
+                <ul class="hanging">
+                    <li>"Hard" avhengighet til Underscore.js <ul> <li>Funksjonell programmering</li><li>+ Templates</li></ul></li>
+                    <li>"Myk" avhengighet til jQuery <ul> <li>DOM-manipulering</li></ul></li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Backbone's "vaskelapp":</h3>
+                <br>
+                <blockquote class="highlight-strong">
+Backbone.js gives structure to web applications by providing <strong>models</strong> with key-value binding and custom events, <strong>collections</strong> with a rich API of enumerable functions, <strong>views</strong> with declarative event handling, and connects it all to your existing API over a RESTful JSON interface.
+                </blockquote>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Komponenter</h3>
+                <div class="spacer"></div>
+                <code>
+                    <ul>
+                        <li>Backbone.Model</li>
+                        <li>Backbone.Collection</li>
+                        <div class="small-spacer"></div>
+                        <li>Backbone.View</li>
+                        <div class="small-spacer"></div>
+                        <li>Backbone.Router</li>
+                    </ul>
+                </code>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Backbone.Model</h2>
+
+                <div class="spacer"></div>
+
+                <ol>
+                    <li>Definerer REST-endpoints</li>
+                </ol>
+
+                <div class="spacer"></div>
+                
+                <pre><code>
+    var TweetModel = Backbone.Model.extend({
+        urlRoot: "https://api.twitter.com/1/statuses/show"
     });
-</script>
+                </code></pre>
+
+                <pre><code>
+    var model = new TweetModel();
+    model.fetch();       // GET
+    model.save();        // POST/PUT 
+    model.destroy();     // DELETE
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h2>Backbone.Model</h2>
+
+                <div class="spacer"></div>
+
+                <ol start="2">
+                    <li>Gettere og settere (som trigger eventer)</li>
+                </ol>
+
+                <br>
+                
+                <pre><code>
+    model.on("change", function() {
+        console.log(model.get("text"));
+    });
+                </code></pre>
+
+                <pre><code>
+    model.set("text", "foobar");
+    // printer "foobar"
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Backbone.Model</h2>
+
+                <div class="spacer"></div>
+
+                <ol start="3">
+                    <li>... eventuelt andre ting</li>
+                </ol>
+
+                <br>
+
+                <pre><code>
+ var Beer = Backbone.Model.extend({
+    isLightBeer: function() {
+      return this.get("alcohol") >= 2 && this.get("alcohol") <= 3;
+    }
+ });
+                </code></pre>
+            </section>
+        </section>
+
+        <section>
+            <h2>Backbone.Collection</h2>
+
+            <div class="spacer"></div>
+
+            <p>Samling av <code>Backbone.Model</code>-er</p>
+            <div class="spacer"></div>
+
+            <pre><code>
+    var BeerCase = Backbone.Collection.extend({
+        model: Beer
+    });
+
+    var beerCase = new BeerCase();
+    
+    var myBeers = beerCase.reject(function(beer) {
+        return beer.isLightBeer();
+    });
+            </code></pre>
+        </section>
+
+        <section>
+            
+            <section>
+
+                <h2>Backbone.View</h2>
+                <div class="spacer"></div>
+                <ul class="hanging">
+                    <li>Ansvar for et subtre i DOM-en <ul> <li>Rendrer modeller</li> </ul> </li>
+                    <li>Mapper DOM-eventer til semantiske eventer <ul> <li>Manipulerer modeller</li> </ul></li>
+                </ul>
+
+                <div class="spacer"></div>
+                <p class="muted">
+                    Får veldig lite fra rammeverket.
+                </p>
+
+            </section>
+
+            <section>
+                <pre><code style="max-height: 700px;">
+var DocumentRow = Backbone.View.extend({
+
+    tagName: "li",
+
+    events: {
+        "click .icon":          "open",
+        "click .button.delete": "destroy"
+    },
+
+    initialize: function() {
+        this.model.on("change", this.render);
+    },
+
+    render: function() {
+        this.$el.html( <span class="code-comment">template</span> );
+    }
+
+});                
+                </code></pre>
+            </section>
+
+        </section>
+        <section>
+            <section>
+                <h2>Backbone.Router</h2>
+
+                <div class="spacer"></div>
+
+                <ul class="hanging">
+                    <li>Håndterer tilstand i applikasjonen.
+                        <ul>
+                            <li>Lytter på endringer i URL.</li>
+                            <li>Parser URL-ruter.</li>
+                            <li>Kan manipulere URL-en.</li>
+                        </ul>
+                    </li>
+                    <li>Vil typisk initialisere Views, og sende med parametre.</li>
+                </ul>
+            </section>
+
+            <section>
+                <pre><code style="max-height: 500px;">
+    Backbone.Router.Extend({
+        routes: {
+            "/show/:itemId": "show",
+            "/edit/:itemId": "edit"
+        },
+
+        show: function(itemId) {
+            var view = new ShowView(itemId);
+            view.render();
+        },
+
+        edit: function(itemId) {
+            var view = new EditView(itemId);
+            view.render();
+        }
+    });
+                </code></pre>
+                <div class="fragment">
+                    <p>For å lagre tilstand:</p>
+                    <code><pre>
+    router.navigate("/show/123", true);
+                    </code></pre>
+
+                </div>
+
+
+            </section>
+        </section>
+        <section>
+            <br><br>
+            <h2>
+                Takk for meg
+            </h2>
+            <br>
+            
+
+            <br><br>
+            <br><br>
+
+            <p class="smaller muted">Slideshow: <code>reveal.js</code></p>
+        </section>
+    </div>
+</div>
+<script src="lib/js/head.min.js" type="text/javascript"></script>
+<script src="js/reveal.min.js" type="text/javascript"></script>
+<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+<script src="js/templating.js" type="text/javascript"></script>
 <script type="text/javascript">
 
     // Full list of configuration options available here:
