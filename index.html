@@ -124,17 +124,6 @@
         <input type="submit">
     </form>
 </script>
-
-<script data-template="js1" type="text/javascript">
-    $("#foo [type=text]").on("change", function (e) {
-        if ($(e.target).val().length > 0) {
-            $("#foo [type=submit]").show();
-        } else {
-            $("#foo [type=submit]").hide();
-        }
-    });
-</script>
-
             <section>
                 <h3>Eksempel</h3>
 
@@ -161,7 +150,14 @@
                 <pre><code data-template="org1" data-escape>
                 </code></pre>
 
-                <pre><code data-template="js1" data-escape>
+                <pre><code>
+    $("#foo [type=text]").on("change", function () {
+        if ($(this).val().length > 0) {
+            $("#foo [type=submit]").show();
+        } else {
+            $("#foo [type=submit]").hide();
+        }
+    });
                 </code></pre>
             </section>
 
@@ -169,7 +165,9 @@
                 <p>Krav 2:</p>
                 <blockquote>URL-en skal reflektere søket brukeren utfører.</blockquote>
             </section>
-<script data-template="js2" type="text/javascript">
+
+            <section>
+                <pre><code>
     $("#foo").on("submit", function () {
         var søkeStreng = $("#foo [type=text]").val();
 
@@ -184,9 +182,6 @@
             }
         });
     });
-</script>
-            <section>
-                <pre><code data-template="js2" data-escape>
                 </code></pre>
             </section>
 
@@ -511,19 +506,193 @@ var DocumentRow = Backbone.View.extend({
 
                 </div>
 
-
             </section>
         </section>
+
+        <section>
+            <section>
+                <p class="bigger"><strong>Hva løses <em>ikke</em> av Backbone?</strong></p>
+                <div class="spacer"></div>
+                <p>Nøstede modeller</p>
+<pre><code>
+    {
+        name: "Mats",
+        address: {
+            street: "Veien",
+            number: 1
+        }
+    }
+</code></pre>  
+            </section>
+            <section>
+                <p class="bigger"><strong>Hva løses <em>ikke</em> av Backbone?</strong></p>
+                <div class="spacer"></div>
+                <p>Nøstede views</p>
+<pre><code>
+    // Kan gjøre det slik, eller ikke
+    var SuperView = Backbone.View.extend({
+
+        // ...
+
+        render: function() {
+            this.subView1.render();
+            this.subView2.render();
+
+            this.$el.empty();
+            this.$el.append(this.subView1.$el);
+            this.$el.append(this.subView2.$el);
+        }
+    });
+</code></pre>
+            </section>
+
+            <section>
+                <p class="bigger"><strong>Hva løses <em>ikke</em> av Backbone?</strong></p>
+                <div class="spacer"></div>
+                <p>2-veis bindinger mellom DOM og modell</p>
+<pre><code style="max-height: 600px;">
+var SomeView = Backbone.View.extend({
+
+  // Oppsett
+
+  events: {
+    "change input#name": this.updateName
+  },
+
+  initialize: function() {
+    this.model.on("change:name", this.renderName);
+  },
+
+
+  // Utførelse
+
+  renderName: function() {
+    this.$("#name").val(this.model.get("name"));
+  },
+
+  updateName: function() {
+    this.model.set("name", this.$("#name").val());
+  }
+});
+</code></pre>
+            </section>
+        </section>
+
+        <section>
+            <h2>Et vell av plugins</h2>
+            
+            <div class="grid smaller3">
+                <div class="col-1-3">
+                    <ul>
+                        <li>Backbone Forms</li>
+                        <li>backbone-deep-model</li>
+                        <li>Backbone-Nested</li>
+                        <li>Backbone.Memento</li>
+                        <li>Backbone.Validation</li>
+                        <li>Backbone.Validator</li>
+                        <li>Backbone.ModelRef</li>
+                        <li>workflow.js</li>
+                        <li>Backbone.Mutators</li>
+                        <li>Backbone.Chosen</li>
+                        <li>Backbone.Schema</li>
+                        <li>Backbone.localStorage</li>
+                    </ul>
+                </div>
+                <div class="col-1-3">
+                    <ul>
+                        <li>Backbone-slet</li>
+                        <li>Backbone.SharePoint</li>
+                        <li>Backbone.SAP</li>
+                        <li>Backbone.Offline</li>
+                        <li>Backbone.Rpc</li>
+                        <li>Backbone.Safe</li>
+                        <li>Backbone.Rel</li>
+                        <li>Ligament</li>
+                        <li>backbone-orm</li>
+                        <li>backbone-pageable</li>
+                        <li>Nesting.js</li>
+                        <li>LayoutManager</li>
+                    </ul>
+                </div>
+                <div class="col-1-3">
+                    <ul>
+                        <li>Backbone.ViewEvents</li>
+                        <li>Backbone.Subviews</li>
+                        <li>Backbone.Stickit</li>
+                        <li>Synapse</li>
+                        <li>Backbone.ModelBinding</li>
+                        <li>Knockback.js </li>
+                        <li>Backbone on the Couch</li>
+                        <li>ProxyDollar</li>
+                        <li>Backbone.declarative</li>
+                        <li>outback.js</li>
+                        <li>Backbone.ViewKit</li>
+                        <li>Backrub</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p>+++</p>
+
+        </section>
+
+        <section>
+            <h2>Lett å teste</h2>
+            <div class="spacer"></div>
+            <ul>
+                <li>Enhetstesting med Jasmine.js</li>
+                <li>Sinon for å fake HTTP</li>
+            </ul>
+            <br>
+            <pre><code>
+    it("should search and render result", function () {
+        
+        server.respondWith("GET", "/api/name-search", [
+            '{"name":"Ola Normann", "address":"Veien"}'
+        ]);
+
+        var myView = new MyView();
+        myView.$("#name").trigger("change", "ola");
+        
+        expect(myView.$("#result")).toHaveText("Ola Normann");
+      
+    });
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Oppsummert</h2>
+            <div class="spacer"></div>
+            
+            <div class="left">
+                <ul>
+                    <li>JavaScript har lett for å bli neglisjert</li>
+                </ul>
+                <div class="spacer"></div>
+                
+                <ul class="hanging">
+                    <li>Backbone: Lavterskeltilbud for struktur</li>
+                    <li>Backbone: Langt fra fullstack
+                        <ul>
+                            <li>Må bestemme deg for konvensjoner</li>
+                            <li>Bra utvalg av plugins</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
         <section>
             <br><br>
             <h2>
                 Takk for meg
             </h2>
-            <br>
             
+            <div class="spacer"></div>
 
-            <br><br>
-            <br><br>
+            <p><a href="http://mbolstad.github.com/backbone-lyntale">http://mbolstad.github.com/backbone-lyntale</a></p>
+        
+            <div class="spacer"></div>            
 
             <p class="smaller muted">Slideshow: <code>reveal.js</code></p>
         </section>
